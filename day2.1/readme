@@ -3,6 +3,6 @@
 为什么是0x7c00，是因为当年PC机器出来的时候IBM的大叔们规定的。
 
 
-相关程序安装：
+运行helloos.img：
 sudo apt install nasm qeum qeum-system-x86
-
+qemu-system-i386 -drive file=helloos.img,if=floppy
