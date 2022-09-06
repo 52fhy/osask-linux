@@ -11,3 +11,11 @@ gcc, make, nasm, qemu, vim(非必须)
 
 运行环境:
 Fedora20-x86\_64下运行良好
+
+学习资料：
+- 30天自制操作系统-川合秀实-微信读书
+https://weread.qq.com/web/reader/38732220718ff5cf3877215k9bf32f301f9bf31c7ff0a60
+- yourtion/30dayMakeOS: 《30天自制操作系统》源码中文版。自己制作一个操作系统（OSASK）的过程
+https://github.com/yourtion/30dayMakeOS
+- akito19/helloos 含有可启动的img镜像文件
+https://github.com/akito19/helloos/tree/13af7e0fcf8c0e6255d1c127fa828cda1e04865b
