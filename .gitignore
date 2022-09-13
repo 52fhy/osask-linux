@@ -1,5 +1,6 @@
 bootloader
 myos.img
+hello*.img
 *.d
 *.o
 *.out
