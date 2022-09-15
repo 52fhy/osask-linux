@@ -6,7 +6,7 @@ boot:
 img:boot
 	dd if=bootloader of=myos.img count=1 bs=512
 	dd if=/dev/zero of=myos.img bs=512 seek=1 skip=1 count=2879
-copy:
+copy:img
 	mkdir -p /tmp/floppy
 	mount -o loop myos.img /tmp/floppy -o fat=12
 	sleep 1
