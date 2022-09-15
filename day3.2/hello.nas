@@ -37,18 +37,18 @@ entry:
 
 	mov ax, 0x0820
 	mov es, ax
-	mov ch, 0
-	mov dh, 0
-	mov cl, 2
+	mov ch, 0	;柱面0
+	mov dh, 0	;磁头0
+	mov cl, 2	;扇区2
 
 	mov si, 0	;!!!本次添加部分
 
 retry:
 	;!!!本次修改部分
-	mov ah, 0x02
-	mov al, 1
-	mov bx, 0
-	mov dl, 0x00
+	mov ah, 0x02	;ah=0x02读盘
+	mov al, 1		;1个扇区
+	mov bx, 0	
+	mov dl, 0x00	;a驱动器
 	int 0x13
 	jnc fin			;没有产生进位，也就是没有出错，跳转到fin
 	add si, 1

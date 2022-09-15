@@ -40,23 +40,23 @@ readsector:
 	;为了方便，我把这段代码起名为readsector
 	mov ax, 0x0820
 	mov es, ax
-	mov ch, 0
-	mov dh, 0
-	mov cl, 2
+	mov ch, 0	;柱面0
+	mov dh, 0	;磁头0
+	mov cl, 2	;扇区2
 readloop:	;循环
 	mov si, 0
 
 retry:
-	mov ah, 0x02
-	mov al, 1
-	mov bx, 0
-	mov dl, 0x00
+	mov ah, 0x02	;ah=0x02读盘
+	mov al, 1		;1个扇区
+	mov bx, 0	
+	mov dl, 0x00	;a驱动器
 	int 0x13
 	jnc next	;如果没有出错，那么跳转到next部分
 	add si, 1
 	cmp si, 5
 	jae error
-	mov ah, 0x00	;BIOS系统复为
+	mov ah, 0x00	;BIOS系统复位
 	mov dl, 0x00
 	int 0x13
 	jmp retry

@@ -40,9 +40,9 @@ readsector:
 	;为了方便，我把这段代码起名为readsector
 	mov ax, 0x0820
 	mov es, ax
-	mov ch, 0
-	mov dh, 0
-	mov cl, 2
+	mov ch, 0	;柱面0
+	mov dh, 0	;磁头0
+	mov cl, 2	;扇区2
 readloop:	;循环
 	mov si, 0
 
