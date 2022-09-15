@@ -54,7 +54,7 @@ entry:
 putloop:
 	;循环显示字符
 	;通过0x10中断，显示一个字符
-	MOV      AL, [SI]      ;把SI地址的1个字节的内容读入AL中
+	MOV      AL, [SI]      ;把SI地址的1个字节的内容读入AL中。MOV AL, [SI]，也就是MOV AL, [DS:SI]的意思。在汇编语言中可以省略默认的段寄存器DS
 	ADD      SI,1              ; 给SI加1
 	CMP      AL,0   		;判断AL=0吗？
 	JE       fin   			 ;上一句判断AL=0成立时执行；否则继续往下执行

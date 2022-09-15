@@ -63,8 +63,10 @@ retry:
 next:
 	;!!!读完18个扇区中剩余部分
 	mov ax, es
-	add ax, 0x0020
-	mov es, ax
+	add ax, 0x0020	;最终是es附加段寄存器加了0x0020,相当于地址向后偏移了0x0200,也就是512B,一个扇区的大小
+					;另外ES:BX=缓冲地址，这个地址就是一个内存地址，表示我们要把从软盘上读出的数据装载到内存的哪个位置 https://www.cnblogs.com/johnjackson/p/12319036.html
+					;所以设置es=0x0020相当于bx=0x0200
+	mov es, ax	;因为没有add es,0x0020指令,这里借用ax
 	add cl, 1	;扇区+1
 	cmp cl, 18	;循环直到扇区18
 	jbe readloop
