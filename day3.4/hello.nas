@@ -47,10 +47,10 @@ readloop:	;循环
 	mov si, 0
 
 retry:
-	mov ah, 0x02
-	mov al, 1
-	mov bx, 0
-	mov dl, 0x00
+	mov ah, 0x02	;ah=0x02读盘
+	mov al, 1		;1个扇区
+	mov bx, 0	
+	mov dl, 0x00	;a驱动器
 	int 0x13
 	jnc next	;如果没有出错，那么跳转到next部分
 	add si, 1
@@ -63,22 +63,24 @@ retry:
 
 next:
 	;读完18个扇区中剩余部分
+	;要读下一个扇区，只需给CL加1，给ES加上0x20就行了;es附加段寄存器加了0x0020,相当于地址向后偏移了0x0200,也就是512B,一个扇区的大小
 	mov ax, es
 	add ax, 0x0020
-	mov es, ax
-	add cl, 1
-	cmp cl, 18
-	jbe readloop
+	mov es, ax	;因为没有add es,0x0020指令,这里借用ax
+	add cl, 1	;扇区+1
+	cmp cl, 18	;循环直到扇区18
+	jbe readloop	;如果<=18跳转
 	;!!!本次添加部分:
-	mov cl, 1
-	add dh, 1
-	cmp dh, 2
-	jb readloop
-	mov dh, 0
-	add ch, 1
-	cmp ch, CYLS
-	jb readloop
+	mov cl, 1	;扇区1
+	add dh, 1	;磁头+1
+	cmp dh, 2	;直到磁头=2
+	jb readloop	;如果<2跳转
+	mov dh, 0	;磁头0
+	add ch, 1	;柱面+1
+	cmp ch, CYLS	;直到柱面=10
+	jb readloop	;如果<2跳转
 	;!!!添加完毕
+	;现在启动区程序已经写得差不多了。如果算上系统加载时自动装载的启动扇区，那现在我们已经能够把软盘最初的10× 2× 18× 512=184320 byte=180KB内容完整无误地装载到内存里了
 
 putloop:
 	;循环显示字符
