@@ -50,10 +50,10 @@ retry:
 	mov bx, 0
 	mov dl, 0x00
 	int 0x13
-	jnc fin
+	jnc fin			;没有产生进位，也就是没有出错，跳转到fin
 	add si, 1
 	cmp si, 5
-	jae error
+	jae error		;si>=5跳转到error
 	mov ah, 0x00	;BIOS系统复为
 	mov dl, 0x00
 	int 0x13
