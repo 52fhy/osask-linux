@@ -1,4 +1,6 @@
 day3.9
+hello.nas里代码没有变。
+
 这里是导入C语言了。原作者用了一堆工具：cc1.exe,gas2nask.exe等。
 这些工具是从linux下改造到windows下的。
 为什么不在linux下用linux下的工具呢？

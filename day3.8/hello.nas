@@ -47,16 +47,16 @@ readloop:	;循环
 	mov si, 0
 
 retry:
-	mov ah, 0x02
-	mov al, 1
-	mov bx, 0
-	mov dl, 0x00
+	mov ah, 0x02	;ah=0x02读盘
+	mov al, 1		;1个扇区
+	mov bx, 0	
+	mov dl, 0x00	;a驱动器
 	int 0x13
 	jnc next	;如果没有出错，那么跳转到next部分
 	add si, 1
 	cmp si, 5
 	jae error
-	mov ah, 0x00	;BIOS系统复为
+	mov ah, 0x00	;BIOS系统复位
 	mov dl, 0x00
 	int 0x13
 	jmp retry
@@ -65,18 +65,19 @@ next:
 	;读完18个扇区中剩余部分
 	mov ax, es
 	add ax, 0x0020
-	mov es, ax
-	add cl, 1
-	cmp cl, 18
+	mov es, ax	;因为没有add es,0x0020指令,这里借用ax
+	add cl, 1	;扇区+1
+	cmp cl, 18	;循环直到扇区18
 	jbe readloop
-	mov cl, 1
-	add dh, 1
-	cmp dh, 2
-	jb readloop
-	mov dh, 0
-	add ch, 1
-	cmp ch, CYLS
-	jb readloop
+	mov cl, 1	;扇区1
+	add dh, 1	;磁头+1
+	cmp dh, 2	;直到磁头=2
+	jb readloop	;如果<2跳转
+	mov dh, 0	;磁头0
+	add ch, 1	;柱面+1
+	cmp ch, CYLS	;直到柱面=10
+	jb readloop	;如果<2跳转
+	
 	mov [0x0ff0], ch	;!!!把CYLS的值写到0x0ff0的地址中
 	jmp fin				;!!!跳转
 
