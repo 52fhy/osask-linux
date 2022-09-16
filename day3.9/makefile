@@ -19,3 +19,4 @@ run:
 	qemu-system-i386 -drive file=myos.img,if=floppy
 clean:
 	@rm -f bootloader myos.img haribote.bin
+	@cd $(subdir);make clean;
