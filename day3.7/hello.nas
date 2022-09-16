@@ -65,19 +65,24 @@ next:
 	;读完18个扇区中剩余部分
 	mov ax, es
 	add ax, 0x0020
-	mov es, ax
-	add cl, 1
-	cmp cl, 18
+	mov es, ax	;因为没有add es,0x0020指令,这里借用ax
+	add cl, 1	;扇区+1
+	cmp cl, 18	;循环直到扇区18
 	jbe readloop
-	mov cl, 1
-	add dh, 1
-	cmp dh, 2
-	jb readloop
-	mov dh, 0
-	add ch, 1
-	cmp ch, CYLS
-	jb readloop
-	mov [0x0ff0], ch	;!!!把CYLS的值写到0x0ff0的地址中
+	mov cl, 1	;扇区1
+	add dh, 1	;磁头+1
+	cmp dh, 2	;直到磁头=2
+	jb readloop	;如果<2跳转
+	mov dh, 0	;磁头0
+	add ch, 1	;柱面+1
+	cmp ch, CYLS	;直到柱面=10
+	jb readloop	;如果<2跳转
+
+	; 以下这句在书中未提到，但在光盘代码中有出现，如果没写，会加载失败报错 load error
+	; https://github.com/MOOOWOOO/OS/blob/master/ipl10.nas
+	; 实际测试没有也可以运行。why?
+	mov		[0x0ff0],ch		; 将CYLS的值写到内存地址0x0ff0中。
+	
 	jmp fin				;!!!跳转
 
 putloop:
@@ -96,7 +101,7 @@ over:
 
 fin:
 	;当需要显示的信息都显示完毕，那么进入死循环
-	jmp 0xc400
+	jmp 0xc400  ;0x4400+0x8000 = 0xc400,通过观察二进制文件，有数据的区域的地址是0x4400
 
 msg:
 	;设定需要显示的字符

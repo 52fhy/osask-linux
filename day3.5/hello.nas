@@ -65,19 +65,19 @@ next:
 	;读完18个扇区中剩余部分
 	mov ax, es
 	add ax, 0x0020
-	mov es, ax
-	add cl, 1
-	cmp cl, 18
-	jbe readloop
+	mov es, ax	;因为没有add es,0x0020指令,这里借用ax
+	add cl, 1	;扇区+1
+	cmp cl, 18	;循环直到扇区18
+	jbe readloop	;如果<=18跳转
 	;!!!本次添加部分:
-	mov cl, 1
-	add dh, 1
-	cmp dh, 2
-	jb readloop
-	mov dh, 0
-	add ch, 1
-	cmp ch, CYLS
-	jb readloop
+	mov cl, 1	;扇区1
+	add dh, 1	;磁头+1
+	cmp dh, 2	;直到磁头=2
+	jb readloop	;如果<2跳转
+	mov dh, 0	;磁头0
+	add ch, 1	;柱面+1
+	cmp ch, CYLS	;直到柱面=10
+	jb readloop	;如果<2跳转
 	;!!!添加完毕
 
 putloop:
